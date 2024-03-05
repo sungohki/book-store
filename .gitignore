@@ -1,3 +1,9 @@
+# Demo files
+demo
+demo/*
+*-demo.js
+data.sql
+
 # Logs
 logs
 *.log
