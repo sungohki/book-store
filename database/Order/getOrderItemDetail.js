@@ -1,7 +1,10 @@
 const { StatusCodes } = require('http-status-codes');
 const conn = require('../../mariadb');
+const { decodeJwt } = require('../../hooks/decodeJwt');
 
 const getOrderItemDetail = (req, res) => {
+  const decodedJwt = decodeJwt(req, res);
+  if (!decodedJwt) return;
   const order_id = req.params.id;
   const sql = `
     SELECT 
