@@ -1,11 +1,15 @@
 const { StatusCodes } = require('http-status-codes');
 const conn = require('../../mariadb');
+const dotenv = require('dotenv');
+dotenv.config();
+const { decodeJwt } = require('../../hooks/decodeJwt');
 
 const addLike = (req, res) => {
-  const { id: liked_book_id } = req.params;
-  const { user_id } = req.body;
+  const book_id = req.params.id;
+  const decodedJwt = decodeJwt(req, res);
+
   const sql = `INSERT INTO likes (user_id, liked_book_id) VALUES (?, ?);`;
-  const values = [user_id, liked_book_id];
+  const values = [decodedJwt.id, book_id];
   conn.query(sql, values, (err, results) => {
     if (err) {
       console.log(err);

@@ -26,19 +26,20 @@ const userLogin = (req, res) => {
       // TODO: Publish jwt token
       const instanceToken = jwt.sign(
         {
+          id: loginUser.id,
           email: loginUser.email,
         },
         process.env.PRIVATE_KEY,
         {
-          expiresIn: '5m',
+          expiresIn: '1m',
           issuer: 'sungohki',
         }
       );
       // TODO: Add jwt token on cookie
-      res.cookie('token', instanceToken, {
+      res.cookie('login_token', instanceToken, {
         httpOnly: true,
       });
-      console.log(token); // Check token
+      // console.log(instanceToken); // Check token
       return res.status(StatusCodes.OK).json(results);
     } else {
       return res.status(StatusCodes.UNAUTHORIZED).end();

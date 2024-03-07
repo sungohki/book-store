@@ -2,11 +2,18 @@ const { StatusCodes } = require('http-status-codes');
 const conn = require('../../mariadb');
 
 const getOrderItemDetail = (req, res) => {
-  const { book_id, quantity, user_id } = req.body;
+  const { id: order_id } = req.params;
   const sql = `
-    INSERT INTO cartItems (book_id, quantity, user_id) VALUES (?, ?, ?);
+    SELECT 
+        book_id, title, author, price, quantity
+    FROM
+        orderedBook
+            LEFT JOIN
+        books ON orderedBook.book_id = books.id
+    WHERE
+        orderedBook.id = ?;
   `;
-  const values = [book_id, quantity, user_id];
+  const values = [order_id];
 
   conn.query(sql, values, (err, results) => {
     if (err) {
