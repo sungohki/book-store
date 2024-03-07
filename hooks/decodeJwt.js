@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
-const { StatusCodes } = require('http-status-codes');
 dotenv.config();
 
 function decodeJwt(req, res) {
