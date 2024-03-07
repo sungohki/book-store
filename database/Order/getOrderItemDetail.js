@@ -2,7 +2,7 @@ const { StatusCodes } = require('http-status-codes');
 const conn = require('../../mariadb');
 
 const getOrderItemDetail = (req, res) => {
-  const { id: order_id } = req.params;
+  const order_id = req.params.id;
   const sql = `
     SELECT 
         book_id, title, author, price, quantity

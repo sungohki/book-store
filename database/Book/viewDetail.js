@@ -1,20 +1,26 @@
 const { StatusCodes } = require('http-status-codes');
 const conn = require('../../mariadb');
+const { decodeJwt } = require('../../hooks/decodeJwt');
 
 const viewDetail = (req, res) => {
-  const { id: book_id } = req.params;
-  const { user_id } = req.body;
-  const sql = `SELECT *,
+  const decodedJwt = decodeJwt(req, res);
+  const book_id = req.params.id;
+
+  let values = [];
+  let sql = `SELECT *,
     (SELECT COUNT(*) FROM likes WHERE liked_book_id = books.id) 
-     AS likes,
-    (SELECT EXISTS 
+     AS likes`;
+  if (decodedJwt) {
+    sql += `, (SELECT EXISTS 
       (SELECT * FROM likes WHERE user_id = ? AND liked_book_id = ?))
-     AS liked
-    FROM books 
+      AS liked `;
+    values = [decodedJwt.id, book_id];
+  }
+  sql += ` FROM books 
     LEFT JOIN category 
     ON books.category_id = category.category_id 
     WHERE books.id = ?`;
-  const values = [user_id, book_id, book_id];
+  values = [...values, book_id];
 
   conn.query(sql, values, (err, results) => {
     if (err) {
