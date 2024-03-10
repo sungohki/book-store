@@ -1,6 +1,6 @@
-const { StatusCodes } = require('http-status-codes');
 const conn = require('../../mariadb');
 const { decodeJwt } = require('../../hooks/decodeJwt');
+const { createRes } = require('../../controller/ResponseController');
 
 const addLike = (req, res) => {
   const book_id = req.params.id;
@@ -9,13 +9,7 @@ const addLike = (req, res) => {
 
   const sql = `INSERT INTO likes (user_id, liked_book_id) VALUES (?, ?);`;
   const values = [decodedJwt.id, book_id];
-  conn.query(sql, values, (err, results) => {
-    if (err) {
-      console.log(err);
-      return res.status(StatusCodes.BAD_REQUEST).end();
-    }
-    return res.status(StatusCodes.OK).json(results);
-  });
+  conn.query(sql, values, (err, results) => createRes(res, err, results));
 };
 
 module.exports = addLike;

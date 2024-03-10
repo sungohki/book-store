@@ -1,6 +1,7 @@
 const { StatusCodes } = require('http-status-codes');
 const conn = require('../../mariadb');
 const dotenv = require('dotenv');
+const { readRes } = require('../../controller/ResponseController');
 dotenv.config();
 
 const NEW_BOOK_CRITERIA = process.env.NEW_BOOK_CRITERIA;
@@ -47,18 +48,14 @@ const viewAll = (req, res) => {
   // 2) count `totalCount`
   sql = `SELECT found_rows() AS totalCount`;
 
-  conn.query(sql, (err, results) => {
-    if (err) {
-      console.log(err);
-      return res.status(StatusCodes.BAD_REQUEST).end();
-    }
-    return res.status(StatusCodes.OK).json({
+  conn.query(sql, (err, results) =>
+    readRes(res, err, {
       books: resBooks,
       pagination: {
         currentPage: parseInt(currentPage),
         totalCount: results[0].totalCount,
       },
-    });
-  });
+    })
+  );
 };
 module.exports = viewAll;

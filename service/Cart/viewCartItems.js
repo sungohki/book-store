@@ -1,6 +1,6 @@
 const conn = require('../../mariadb');
 const { decodeJwt } = require('../../hooks/decodeJwt');
-const { readRes } = require('../Common/readRes');
+const { readRes } = require('../../controller/ResponseController');
 
 const viewCartItems = (req, res) => {
   const { selected } = req.body;

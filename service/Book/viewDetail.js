@@ -1,6 +1,6 @@
-const { StatusCodes } = require('http-status-codes');
 const conn = require('../../mariadb');
 const { decodeJwt } = require('../../hooks/decodeJwt');
+const readRes = require('../Common/readRes');
 
 const viewDetail = (req, res) => {
   const decodedJwt = decodeJwt(req, res);
@@ -22,18 +22,7 @@ const viewDetail = (req, res) => {
     WHERE books.id = ?`;
   values = [...values, book_id];
 
-  conn.query(sql, values, (err, results) => {
-    if (err) {
-      console.log(err);
-      return res.status(StatusCodes.BAD_REQUEST).end();
-    }
-    const goalBook = results[0];
-    if (goalBook) {
-      return res.status(StatusCodes.OK).json(goalBook);
-    } else {
-      return res.status(StatusCodes.NOT_FOUND).end();
-    }
-  });
+  conn.query(sql, values, (err, results) => readRes(res, err, results[0]));
 };
 
 module.exports = viewDetail;

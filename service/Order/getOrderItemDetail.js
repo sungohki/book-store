@@ -26,8 +26,7 @@ const getOrderItemDetail = async (req, res) => {
   `;
   let values = [order_id];
   let [results] = await conn.query(sql, values);
-  console.log(results);
-  if (results[0].user_id != decodedJwt.id) {
+  if (results[0] && results[0].user_id != decodedJwt.id) {
     return res
       .status(StatusCodes.UNAUTHORIZED)
       .send('#info: UserId and OrderItemsId not match')
@@ -47,7 +46,6 @@ const getOrderItemDetail = async (req, res) => {
   `;
   values = [order_id];
   [results] = await conn.query(sql, values);
-  console.log(results);
   return res.status(StatusCodes.OK).json(results[0]);
 };
 
