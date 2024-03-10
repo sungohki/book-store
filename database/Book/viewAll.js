@@ -5,11 +5,14 @@ const NEW_BOOK_CRITERIA = 3;
 
 const viewAll = (req, res) => {
   const { category_id, news, limit, currentPage } = req.query;
-  let sql = `SELECT *,
+  let resBooks;
+  let sql = `SELECT SQL_CALC_FOUND_ROWS *,
     (SELECT COUNT(*) FROM likes WHERE liked_book_id = books.id) AS likes 
     FROM books
   `;
   let values = [];
+
+  // 1) View all books with `Limit` & `Offset
   if (category_id || news) {
     sql += ` WHERE `;
     if (category_id && news) {
@@ -31,13 +34,29 @@ const viewAll = (req, res) => {
   conn.query(sql, values, (err, results) => {
     if (err) {
       console.log(err);
-      return res.status(StatusCodes.BAD_REQUEST).end();
     }
     if (results.length) {
-      return res.status(StatusCodes.OK).json(results);
+      resBooks = results;
     } else {
       return res.status(StatusCodes.NOT_FOUND).end();
     }
+  });
+
+  // 2) count `totalCount`
+  sql = `select found_rows() as totalCount`;
+
+  conn.query(sql, (err, results) => {
+    if (err) {
+      console.log(err);
+      return res.status(StatusCodes.BAD_REQUEST).end();
+    }
+    return res.status(StatusCodes.OK).json({
+      books: resBooks,
+      pagination: {
+        currentPage: parseInt(currentPage),
+        totalCount: results[0].totalCount,
+      },
+    });
   });
 };
 module.exports = viewAll;
