@@ -1,4 +1,4 @@
-const viewAll = require('../database/Book/viewAll');
-const viewDetail = require('../database/Book/viewDetail');
+const viewAll = require('../service/Book/viewAll');
+const viewDetail = require('../service/Book/viewDetail');
 
 module.exports = { viewAll, viewDetail };

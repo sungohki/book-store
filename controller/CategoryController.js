@@ -1,3 +1,3 @@
-const allCategory = require('../database/Category/viewAll');
+const allCategory = require('../service/Category/viewAll');
 
 module.exports = { allCategory };

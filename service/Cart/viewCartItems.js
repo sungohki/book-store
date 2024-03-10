@@ -1,6 +1,6 @@
-const { StatusCodes } = require('http-status-codes');
 const conn = require('../../mariadb');
 const { decodeJwt } = require('../../hooks/decodeJwt');
+const { readRes } = require('../Common/readRes');
 
 const viewCartItems = (req, res) => {
   const { selected } = req.body;
@@ -22,13 +22,7 @@ const viewCartItems = (req, res) => {
     values.push(selected);
   }
 
-  conn.query(sql, values, (err, results) => {
-    if (err) {
-      console.log(err);
-      return res.status(StatusCodes.BAD_REQUEST).end();
-    }
-    return res.status(StatusCodes.OK).json(results);
-  });
+  conn.query(sql, values, (err, results) => readRes(res, err, results));
 };
 
 module.exports = viewCartItems;

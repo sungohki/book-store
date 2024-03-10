@@ -1,5 +1,5 @@
-const addLike = require('../database/Like/addLike');
-const deleteLike = require('../database/Like/deleteLike');
-const toggleLike = require('../database/Like/toggleLike');
+const addLike = require('../service/Like/addLike');
+const deleteLike = require('../service/Like/deleteLike');
+const toggleLike = require('../service/Like/toggleLike');
 
 module.exports = { addLike, deleteLike, toggleLike };

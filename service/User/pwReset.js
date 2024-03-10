@@ -1,6 +1,6 @@
-const { StatusCodes } = require('http-status-codes');
 const conn = require('../../mariadb');
 const crypto = require('crypto');
+const { updateRes } = require('../../controller/ResponseController');
 
 const userPwReset = (req, res) => {
   const { email, password } = req.body;
@@ -11,17 +11,7 @@ const userPwReset = (req, res) => {
     .toString('base64');
   const values = [hashedPassword, salt, email];
 
-  conn.query(sql, values, (err, results) => {
-    if (err) {
-      console.log(err);
-      return res.status(StatusCodes.BAD_REQUEST).end();
-    }
-    if (results.affectedRows) {
-      res.status(StatusCodes.BAD_REQUEST).end();
-    } else {
-      res.status(StatusCodes.OK).json(results);
-    }
-  });
+  conn.query(sql, values, (err, results) => updateRes(res, err, results));
 };
 
 module.exports = userPwReset;

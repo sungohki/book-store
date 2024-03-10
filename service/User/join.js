@@ -1,6 +1,6 @@
-const { StatusCodes } = require('http-status-codes');
 const conn = require('../../mariadb');
 const crypto = require('crypto');
+const { createRes } = require('../../controller/ResponseController');
 
 const userJoin = (req, res) => {
   const { email, name, password, contact } = req.body;
@@ -19,13 +19,7 @@ const userJoin = (req, res) => {
       (?, ?, ?, ?, ?)`;
   const values = [email, name, hashedPassword, salt, contact];
 
-  conn.query(sql, values, (err, results) => {
-    if (err) {
-      console.log(err);
-      return res.status(StatusCodes.BAD_REQUEST).end();
-    }
-    return res.status(StatusCodes.CREATED).json(results);
-  });
+  conn.query(sql, values, (err, results) => createRes(res, err, results));
 };
 
 module.exports = userJoin;

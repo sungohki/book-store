@@ -17,12 +17,27 @@ Purpose of the project is Create an "online book store"
 - Root
 - branch of "Root"
   - controller
-  - database
+  - service
     - Book
+      - viewAll
+      - viewDetail
     - Cart
+      - addToCart
+      - removeCartItem
+      - viewCartItems
     - Category
+      - viewAll
     - Like
+      - toggleLike
     - Order
+      - get
+        - OrderItems
+        - OrderItemDetail
+      - orderCartItems
     - User
+      - join
+      - login
+      - pwResetRequest
+      - pwReset
   - hook
   - routes

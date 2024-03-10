@@ -23,7 +23,7 @@ const userLogin = (req, res) => {
       .toString('base64');
 
     if (loginUser && loginUser.password == hashedPassword) {
-      // TODO: Publish jwt token
+      // 1) jwt 토큰 발행
       const instanceToken = jwt.sign(
         {
           id: loginUser.id,
@@ -36,11 +36,10 @@ const userLogin = (req, res) => {
           issuer: 'sungohki',
         }
       );
-      // TODO: Add jwt token on cookie
+      // 2) 쿠키에 토큰 첨부
       res.cookie('login_token', instanceToken, {
         httpOnly: true,
       });
-      // console.log(instanceToken); // Check token
       return res.status(StatusCodes.OK).json(results);
     } else {
       return res.status(StatusCodes.UNAUTHORIZED).end();

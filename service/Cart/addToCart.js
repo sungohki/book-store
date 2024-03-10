@@ -17,7 +17,11 @@ const addToCart = (req, res) => {
       console.log(err);
       return res.status(StatusCodes.BAD_REQUEST).end();
     }
-    return res.status(StatusCodes.OK).json(results);
+    if (results.affectedRows) {
+      return res.status(StatusCodes.OK).json(results);
+    } else {
+      return res.status(StatusCodes.BAD_REQUEST).end();
+    }
   });
 };
 
