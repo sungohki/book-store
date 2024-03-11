@@ -52,8 +52,8 @@ const viewAll = (req, res) => {
     readRes(res, err, {
       books: resBooks,
       pagination: {
-        currentPage: parseInt(currentPage),
-        totalCount: results[0].totalCount,
+        current_page: parseInt(currentPage),
+        total_count: results[0].totalCount,
       },
     })
   );

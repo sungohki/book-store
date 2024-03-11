@@ -22,3 +22,12 @@ app.use('/category', categoryRouter);
 app.use('/likes', likeRouter);
 app.use('/carts', cartRouter);
 app.use('/orders', orderRouter);
+
+const cors = require('cors');
+
+const corsOptions = {
+  origin: 'http://localhost:3000', // 요청을 허용할 도메인 지정, 프론트엔드 개발 서버
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
