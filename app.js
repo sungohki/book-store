@@ -1,6 +1,7 @@
 // module import
 const express = require('express');
 const dotenv = require('dotenv');
+const cors = require('cors');
 
 // Initial Option
 dotenv.config();
@@ -23,11 +24,9 @@ app.use('/likes', likeRouter);
 app.use('/carts', cartRouter);
 app.use('/orders', orderRouter);
 
-const cors = require('cors');
-
+// cors
 const corsOptions = {
-  origin: 'http://localhost:3000', // 요청을 허용할 도메인 지정, 프론트엔드 개발 서버
+  origin: ['http://localhost:3000'],
   credentials: true,
 };
-
 app.use(cors(corsOptions));
