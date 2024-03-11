@@ -11,6 +11,7 @@ Purpose of the project is Create an "online book store"
 - Create `.env` file & Fill out constant data
   - `PORT`
   - `PRIVATE_KEY`
+  - `NEW_BOOK_CRITERIA`
 
 # Project Structure
 

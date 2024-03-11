@@ -37,10 +37,10 @@ const userLogin = (req, res) => {
         }
       );
       // 2) 쿠키에 토큰 첨부
-      res.cookie('login_token', instanceToken, {
+      res.cookie('token', instanceToken, {
         httpOnly: true,
       });
-      return res.status(StatusCodes.OK).json(results);
+      return res.status(StatusCodes.OK).json({ ...results[0], token: token });
     } else {
       return res.status(StatusCodes.UNAUTHORIZED).end();
     }
