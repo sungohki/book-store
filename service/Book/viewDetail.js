@@ -3,14 +3,16 @@ const { decodeJwt } = require('../../hooks/decodeJwt');
 const readRes = require('../Common/readRes');
 
 const viewDetail = (req, res) => {
-  const decodedJwt = decodeJwt(req, res);
+  const receivedToken = req.headers['authorization'];
   const book_id = req.params.id;
 
   let values = [];
   let sql = `SELECT *,
     (SELECT COUNT(*) FROM likes WHERE liked_book_id = books.id) 
      AS likes`;
-  if (decodedJwt) {
+  if (receivedToken) {
+    const decodedJwt = decodeJwt(req, res);
+    if (!decodedJwt) return;
     sql += `, (SELECT EXISTS 
       (SELECT * FROM likes WHERE user_id = ? AND liked_book_id = ?))
       AS liked `;

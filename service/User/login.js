@@ -40,7 +40,9 @@ const userLogin = (req, res) => {
       res.cookie('token', instanceToken, {
         httpOnly: true,
       });
-      return res.status(StatusCodes.OK).json({ ...results[0], token: token });
+      return res
+        .status(StatusCodes.OK)
+        .json({ ...results[0], token: instanceToken });
     } else {
       return res.status(StatusCodes.UNAUTHORIZED).end();
     }
