@@ -42,11 +42,11 @@ const getOrderItemDetail = async (req, res) => {
             LEFT JOIN
         books ON orderedBook.book_id = books.id
     WHERE
-        orderedBook.id = ?;
+        orderedBook.order_id = ?;
   `;
   values = [order_id];
   [results] = await conn.query(sql, values);
-  return res.status(StatusCodes.OK).json(results[0]);
+  return res.status(StatusCodes.OK).json(results);
 };
 
 module.exports = getOrderItemDetail;

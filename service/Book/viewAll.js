@@ -38,7 +38,7 @@ const viewAll = (req, res) => {
     if (err) {
       console.log(err);
     }
-    if (results.length) {
+    if (results && results.length) {
       resBooks = results;
     } else {
       return res.status(StatusCodes.NOT_FOUND).end();

@@ -49,6 +49,7 @@ const orderCartItems = async (req, res) => {
     decodedJwt.id,
     delivery_id,
   ];
+  console.log(values);
   [results] = await conn.execute(sql, values);
   const order_id = results.insertId;
 
